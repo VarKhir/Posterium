@@ -11,6 +11,7 @@ const log = createLogger("server-defaults")
 export interface ServerDefaults {
   badgeStyle?: BadgeStyle
   rankingBadgeStyle?: RankingBadgeStyle
+  badgeFontScale?: number
   blurEnabled?: boolean
   blurIntensity?: number
   blurFade?: number
@@ -78,6 +79,7 @@ function defaultsFromEnv(): ServerDefaults {
   const blurF = envNum("POSTERIUM_BLUR_FADE")
   const blurD = envNum("POSTERIUM_BLUR_DARKNESS")
   const gradH = envNum("POSTERIUM_GRADIENT_HEIGHT")
+  const badgeFs = envNum("POSTERIUM_BADGE_FONT_SCALE")
   if (bs && isBadgeStyle(bs)) d.badgeStyle = bs
   if (rbs && isRankingBadgeStyle(rbs)) d.rankingBadgeStyle = rbs
   if (side === "left" || side === "right") d.ribbonSide = side
@@ -85,6 +87,7 @@ function defaultsFromEnv(): ServerDefaults {
   if (blurF !== undefined) d.blurFade = blurF
   if (blurD !== undefined) d.blurDarkness = blurD
   if (gradH !== undefined) d.gradientHeight = gradH
+  if (badgeFs !== undefined) d.badgeFontScale = badgeFs
   return d
 }
 const ENV_DEFAULTS: ServerDefaults = defaultsFromEnv()

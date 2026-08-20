@@ -57,6 +57,7 @@ export interface GenerationInput {
   voteAverage: number | null
   badgeStyle: BadgeStyle
   rankingBadgeStyle: RankingBadgeStyle
+  badgeFontScale: number
   /** Quali componenti del badge genere/rating mostrare (default tutti ON). */
   badgeGenre: boolean
   badgeYear: boolean
@@ -244,7 +245,7 @@ export async function generatePosterBuffer(input: GenerationInput): Promise<Buff
     backdropScale, backdropOffsetX, backdropOffsetY,
     blurEnabled, blurHeight, blurIntensity, blurFade, blurDarkness,
     badgesEnabled, rankingEnabled, genreName, voteAverage, badgeStyle,
-    rankingBadgeStyle, badgeGenre, badgeYear, badgeRating,
+    rankingBadgeStyle, badgeFontScale, badgeGenre, badgeYear, badgeRating,
     topLight, targetCenter, ribbonSide,
     logoScale, logoOffsetX, logoOffsetY,
     mediaType, finalRank, animeRankResult,
@@ -392,10 +393,10 @@ export async function generatePosterBuffer(input: GenerationInput): Promise<Buff
   const isAnimeRank = topBadge?.type === "rank" && animeRankResult !== null && topBadge.rank === animeRankResult
 
   const genreBadgeKey = hasGenreBadge
-    ? badgeCacheKey("genre", genreName, voteAverage, STD_W, year, badgeStyle, accentColorGenre, topLight, badgeGenre, badgeYear, badgeRating)
+    ? badgeCacheKey("genre", genreName, voteAverage, STD_W, year, badgeStyle, accentColorGenre, topLight, badgeFontScale, badgeGenre, badgeYear, badgeRating)
     : null
   const rankBadgeKey = topBadge
-    ? badgeCacheKey("rank", topBadge.type === "extra" ? topBadge.label : `${topBadge.rank}:${topBadge.label}`, STD_W, topLight, rankingBadgeStyle, accentColorRank, ribbonSide, isAnimeRank)
+    ? badgeCacheKey("rank", topBadge.type === "extra" ? topBadge.label : `${topBadge.rank}:${topBadge.label}`, STD_W, topLight, rankingBadgeStyle, badgeFontScale, accentColorRank, ribbonSide, isAnimeRank)
     : null
 
   const [genreBadgeResult, rankBadgeResult] = await Promise.all([
@@ -410,10 +411,10 @@ export async function generatePosterBuffer(input: GenerationInput): Promise<Buff
       ? (cacheGet<{ png: Buffer; w: number; h: number; isRank?: boolean }>(rankBadgeKey)
           || coalesceBadgeRender(rankBadgeKey, () => {
               if (topBadge!.type === "extra") {
-                return renderExtraBadge(topBadge!.label, STD_W, topLight, rankingBadgeStyle, accentColorRank)
+                return renderExtraBadge(topBadge!.label, STD_W, topLight, rankingBadgeStyle, accentColorRank, badgeFontScale)
                   .then((r) => { const v = { ...r, isRank: false }; cacheSet(rankBadgeKey, v, ["badge"], BADGE_CACHE_TTL); return v })
               }
-              return renderRankingBadge(topBadge!.rank!, STD_W, topBadge!.label, topLight, rankingBadgeStyle, accentColorRank, ribbonSide, isAnimeRank)
+              return renderRankingBadge(topBadge!.rank!, STD_W, topBadge!.label, topLight, rankingBadgeStyle, accentColorRank, ribbonSide, isAnimeRank, badgeFontScale)
                 .then((r) => { const v = { ...r, isRank: true }; cacheSet(rankBadgeKey, v, ["badge"], BADGE_CACHE_TTL); return v })
             }))
       : Promise.resolve(null),

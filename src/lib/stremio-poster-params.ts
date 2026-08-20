@@ -14,6 +14,7 @@ export interface StremioPosterParamsInput {
   readonly badgeRating?: boolean
   readonly badgeStyle?: BadgeStyle
   readonly rankingBadgeStyle?: RankingBadgeStyle
+  readonly badgeFontScale?: number
   readonly gradientHeight?: number
   readonly blurIntensity?: number
   readonly blurFade?: number
@@ -30,6 +31,7 @@ const DEFAULT_STREMIO_POSTER_PARAMS = {
   rankingBadges: true,
   badgeStyle: "shadow",
   rankingBadgeStyle: "default",
+  badgeFontScale: 100,
   gradientHeight: 30,
   blurIntensity: 5,
   blurFade: 60,
@@ -69,6 +71,7 @@ export function buildStremioPosterSearchParams(input: StremioPosterParamsInput):
   params.set("bd", String(input.blurDarkness ?? DEFAULT_STREMIO_POSTER_PARAMS.blurDarkness))
   params.set("bs", input.badgeStyle || DEFAULT_STREMIO_POSTER_PARAMS.badgeStyle)
   params.set("rs", input.rankingBadgeStyle || DEFAULT_STREMIO_POSTER_PARAMS.rankingBadgeStyle)
+  params.set("bfs", String(input.badgeFontScale ?? DEFAULT_STREMIO_POSTER_PARAMS.badgeFontScale))
   params.set("rv", String(POSTER_URL_VERSION))
   return params
 }

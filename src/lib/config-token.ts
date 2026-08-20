@@ -33,6 +33,7 @@ export const configTokenSchema = z.object({
   badgeRating: z.boolean().optional(),
   badgeStyle: badgeStyleSchema,
   rankingBadgeStyle: rankingBadgeStyleSchema,
+  badgeFontScale: z.number().finite().optional(),
   blurEnabled: z.boolean(),
   blurIntensity: z.number().finite(),
   blurFade: z.number().finite(),
@@ -153,6 +154,7 @@ export function decodeConfig(token: string): PosteriumUserConfig | null {
       blurFade: clamp(Math.round(result.data.blurFade), 0, 100),
       blurDarkness: clamp(Math.round(result.data.blurDarkness), 0, 100),
       gradientHeight: clamp(Math.round(result.data.gradientHeight), 5, 100),
+      badgeFontScale: result.data.badgeFontScale === undefined ? undefined : clamp(Math.round(result.data.badgeFontScale), 50, 150),
     }
 
     return clamped

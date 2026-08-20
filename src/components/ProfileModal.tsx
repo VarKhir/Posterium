@@ -78,6 +78,7 @@ export function ProfileModal({ isOpen, onClose }: Props) {
         badgeRating: ed.badgeRating === false ? false : undefined,
         badgeStyle: ed.badgeStyle,
         rankingBadgeStyle: ed.rankingBadgeStyle,
+        badgeFontScale: ed.badgeFontScale,
         blurEnabled: ed.blurEnabled,
         blurIntensity: ed.blurIntensity,
         blurFade: ed.blurFade,

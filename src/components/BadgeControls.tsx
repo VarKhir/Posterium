@@ -152,6 +152,9 @@ export function BadgeControls() {
         <div className="px-1">
           <BadgeStyleSelector value={ed.badgeStyle} options={["shadow","pill","bar","colored","bordo","vetro"]} onChange={ed.setBadgeStyle} t={t} accentColor={accentColor} />
         </div>
+        <div className="mt-2 px-1">
+          <SliderRow icon={<Ruler className="w-3.5 h-3.5" />} label={t("ui.fontSize")} value={ed.badgeFontScale} min={50} max={150} boundsMin={50} boundsMax={150} onChange={(v) => ed.setBadgeFontScale(v)} onDoubleClick={() => ed.setBadgeFontScale(100)} editingValue={editingValue} editText={editText} setEditingValue={setEditingValue} setEditText={setEditText} editingKey="bfs" suffix="%" />
+        </div>
         <div className="flex items-center gap-2 justify-center mt-2 px-1">
           <input
             type="color"
