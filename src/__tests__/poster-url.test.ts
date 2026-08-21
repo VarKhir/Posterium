@@ -2,7 +2,7 @@ import { afterEach, describe, it, expect } from "vitest"
 import { buildPreviewUrl, buildUrlPattern } from "@/lib/poster-url"
 import { POSTER_URL_VERSION } from "@/lib/render-version"
 
-const baseBadgeParams = {
+const baseBadgeParams: any = {
   globalBadges: true,
   rankingBadges: true,
   badgeStyle: "shadow" as const,
@@ -15,7 +15,7 @@ const baseBadgeParams = {
   blurEnabled: true,
 }
 
-const basePosterState = {
+const basePosterState: any = {
   selected: { id: 123, media_type: "movie" as const, title: "Test Movie", poster_path: "/poster.jpg" },
   previewPoster: { file_path: "/poster.jpg", iso_639_1: "it", vote_average: 7.5, width: 500, height: 750 },
   selectedLogo: null,
@@ -88,9 +88,6 @@ describe("buildUrlPattern", () => {
   })
 
   it("stateless config-token URL emits badge OFF flags (by=0/br=0/bg=0) so disables win over token", () => {
-    // Regressione: disattivando anno/voto/genere nell'editor, il link ?config=
-    // deve portare by=0/br=0/bg=0 (la query vince sul config token nel parsing
-    // della route) — altrimenti il badge compare comunque (default ON).
     const url = buildUrlPattern({
       ...baseBadgeParams,
       tmdbKey: "k",
@@ -113,8 +110,6 @@ describe("buildUrlPattern", () => {
   })
 
   it("stateless config-token URL omits bg/by/br when those badges are ON (not false)", () => {
-    // Con i badge attivi (true/undefined) NON si emette bg/by/br: il server usa
-    // il config token / i default. Solo i flag OFF devono comparire.
     const url = buildUrlPattern({
       ...baseBadgeParams,
       tmdbKey: "k",
@@ -280,9 +275,6 @@ describe("buildPreviewUrl", () => {
   })
 
   it("includes side=left when ribbonSide is left (fix M2: desync preview)", () => {
-    // Prima la preview emetteva side SOLO per right: il server risolveva dal
-    // mapping/config salvati (default right in Stremio mode) e la preview
-    // rendeva a destra anche con l'editor su sinistra.
     const url = buildPreviewUrl(basePosterState, { ...baseBadgeParams, ribbonSide: "left" })
     expect(url).toContain("side=left")
   })
@@ -313,9 +305,6 @@ describe("buildPreviewUrl", () => {
   })
 
   it("omits tl param when topEdgeColor is not computed (server decides, fix M16)", () => {
-    // Prima il null forzava tl=1 (testo chiaro) anche quando il server
-    // avrebbe calcolato scuro: ora senza colore campionato il parametro è
-    // omesso e la decisione spetta al render server.
     const url = buildPreviewUrl({ ...basePosterState, topEdgeColor: null }, { ...baseBadgeParams, rankingBadges: false })
     expect(url).not.toContain("tl=")
   })
@@ -371,7 +360,6 @@ describe("buildPreviewUrl", () => {
 
   it("includes rv= render version param", () => {
     const url = buildPreviewUrl(basePosterState, baseBadgeParams)
-    // RENDER_VERSION è auto-generato come hash esadecimale (scripts/write-render-version.mjs).
     expect(url).toMatch(/rv=[0-9a-f]+/)
   })
 
