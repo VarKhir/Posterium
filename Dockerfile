@@ -35,8 +35,8 @@ ENV SHARP_CONCURRENCY=2
 ENV SHARP_CACHE_MEMORY_MB=64
 ENV POSTERIUM_DATA_DIR=/data
 
-# Rimuove l'utente predefinito 'node' (UID 1000) prima di creare nextjs
-RUN userdel -r node && addgroup --system nodejs && adduser --system --uid 1000 nextjs
+# Rinomina l'utente e il gruppo preesistenti (UID 1000) in nextjs/nodejs
+RUN usermod -l nextjs node && groupmod -n nodejs node
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
