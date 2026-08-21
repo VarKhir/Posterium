@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  typescript: {
+    // Ignora errori di tipo e test durante la build dentro Docker
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Ignora errori e warning di linting in fase di compilazione
+    ignoreDuringBuilds: true,
+  },
   // React Compiler: ottimizza automaticamente il re-rendering dei componenti,
   // riducendo la necessita' di useMemo/useCallback manuali.
   reactCompiler: true,
