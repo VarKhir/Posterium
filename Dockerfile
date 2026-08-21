@@ -1,6 +1,6 @@
 FROM node:20-bookworm AS source
 WORKDIR /src
-ARG SOURCE_REPO=https://github.com/Eful97/Posterium.git
+ARG SOURCE_REPO=https://github.com/VarKhir/Posterium.git
 ARG SOURCE_REF=master
 COPY . .
 RUN if [ ! -f package.json ]; then \
@@ -18,10 +18,11 @@ RUN npm ci --omit=dev --no-audit --no-fund
 FROM node:20-bookworm AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 COPY --from=source /src/package.json /src/package-lock.json ./
 RUN npm ci --no-audit --no-fund
 COPY --from=source /src ./
-RUN npx next build --no-lint
+RUN npm run build
 
 FROM node:20-bookworm AS runner
 WORKDIR /app
@@ -35,7 +36,7 @@ ENV SHARP_CONCURRENCY=2
 ENV SHARP_CACHE_MEMORY_MB=64
 ENV POSTERIUM_DATA_DIR=/data
 
-# Rinomina l'utente e il gruppo preesistenti (UID 1000) in nextjs/nodejs
+# Rinomina l'utente preesistente 'node' (UID 1000)
 RUN usermod -l nextjs node && groupmod -n nodejs node
 
 COPY --from=deps /app/node_modules ./node_modules
