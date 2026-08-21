@@ -30,6 +30,8 @@ export interface PosterEditorCtx {
   setBadgeStyle: (v: BadgeStyle | ((prev: BadgeStyle) => BadgeStyle)) => void
   rankingBadgeStyle: RankingBadgeStyle
   setRankingBadgeStyle: (v: RankingBadgeStyle | ((prev: RankingBadgeStyle) => RankingBadgeStyle)) => void
+  badgeFontScale: number
+  setBadgeFontScale: (v: number | ((prev: number) => number)) => void
   customBadge: string | null
   setCustomBadge: (v: string | null | ((prev: string | null) => string | null)) => void
   networkLogo: boolean
@@ -42,6 +44,8 @@ export interface PosterEditorCtx {
   setDefaultBadgeStyle: (v: BadgeStyle | ((prev: BadgeStyle) => BadgeStyle)) => void
   defaultRankingBadgeStyle: RankingBadgeStyle
   setDefaultRankingBadgeStyle: (v: RankingBadgeStyle | ((prev: RankingBadgeStyle) => RankingBadgeStyle)) => void
+  defaultBadgeFontScale: number
+  setDefaultBadgeFontScale: (v: number | ((prev: number) => number)) => void
   defaultBlurEnabled: boolean
   setDefaultBlurEnabled: (v: boolean | ((prev: boolean) => boolean)) => void
   defaultBlurIntensity: number
@@ -163,7 +167,9 @@ export function PosterEditorProvider({
     badgeGenre, badgeYear, badgeRating,
     gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled,
     badgeStyle, rankingBadgeStyle,
+    badgeFontScale,
     defaultBadgeStyle, defaultRankingBadgeStyle,
+    defaultBadgeFontScale,
     defaultBlurEnabled, defaultBlurIntensity, defaultBlurFade, defaultBlurDarkness,
     defaultGradientHeight, defaultGlobalBadges, defaultRankingBadges,
     defaultBadgeGenre, defaultBadgeYear, defaultBadgeRating,
@@ -241,6 +247,12 @@ export function PosterEditorProvider({
       const next = typeof v === "function" ? v(rankingBadgeStyle) : v
       update({ rankingBadgeStyle: next, defaultRankingBadgeStyle: next })
     }, [rankingBadgeStyle, update])
+  const setBadgeFontScale = useCallback(
+    (v: number | ((prev: number) => number)) => {
+      const next = typeof v === "function" ? v(badgeFontScale) : v
+      const clamped = Math.round(Math.min(150, Math.max(50, next)))
+      update({ badgeFontScale: clamped, defaultBadgeFontScale: clamped })
+    }, [badgeFontScale, update])
   const setDefaultBadgeStyle = useCallback(
     (v: BadgeStyle | ((prev: BadgeStyle) => BadgeStyle)) => {
       const next = typeof v === "function" ? v(defaultBadgeStyle) : v
@@ -251,6 +263,12 @@ export function PosterEditorProvider({
       const next = typeof v === "function" ? v(defaultRankingBadgeStyle) : v
       update({ defaultRankingBadgeStyle: next, rankingBadgeStyle: next })
     }, [defaultRankingBadgeStyle, update])
+  const setDefaultBadgeFontScale = useCallback(
+    (v: number | ((prev: number) => number)) => {
+      const next = typeof v === "function" ? v(defaultBadgeFontScale) : v
+      const clamped = Math.round(Math.min(150, Math.max(50, next)))
+      update({ defaultBadgeFontScale: clamped, badgeFontScale: clamped })
+    }, [defaultBadgeFontScale, update])
   const setDefaultBlurEnabled = useCallback(
     (v: boolean | ((prev: boolean) => boolean)) => {
       const next = typeof v === "function" ? v(defaultBlurEnabled) : v
@@ -340,6 +358,8 @@ export function PosterEditorProvider({
       setBadgeStyle,
       rankingBadgeStyle,
       setRankingBadgeStyle,
+      badgeFontScale,
+      setBadgeFontScale,
       customBadge,
       setCustomBadge,
       networkLogo,
@@ -352,6 +372,8 @@ export function PosterEditorProvider({
       setDefaultBadgeStyle,
       defaultRankingBadgeStyle,
       setDefaultRankingBadgeStyle,
+      defaultBadgeFontScale,
+      setDefaultBadgeFontScale,
       defaultBlurEnabled,
       setDefaultBlurEnabled,
       defaultBlurIntensity,
@@ -435,6 +457,7 @@ export function PosterEditorProvider({
       badgeRating, setBadgeRating,
       badgeStyle, setBadgeStyle,
       rankingBadgeStyle, setRankingBadgeStyle,
+      badgeFontScale, setBadgeFontScale,
       customBadge, setCustomBadge,
       networkLogo, setNetworkLogo,
       ribbonSide, setRibbonSide,
@@ -442,6 +465,7 @@ export function PosterEditorProvider({
       // Defaults
       defaultBadgeStyle, setDefaultBadgeStyle,
       defaultRankingBadgeStyle, setDefaultRankingBadgeStyle,
+      defaultBadgeFontScale, setDefaultBadgeFontScale,
       defaultBlurEnabled, setDefaultBlurEnabled,
       defaultBlurIntensity, setDefaultBlurIntensity,
       defaultBlurFade, setDefaultBlurFade,

@@ -156,6 +156,7 @@ export function SettingsPanel({ tmdbKeyInput, setTmdbKeyInput, setTmdbKey, setSe
       <BadgeStyleSelector value={ed.defaultRankingBadgeStyle} options={["default", "bar", "colored", "pill"]} onChange={(v) => { ed.setDefaultRankingBadgeStyle(v); ed.setRankingBadgeStyle(v) }} t={t} accentColor={accentColor} />
       <label className="text-xs text-muted font-medium flex items-center gap-1.5 mt-1"><Palette className="w-3 h-3" /> {t("ui.styleDefault")}</label>
       <BadgeStyleSelector value={ed.defaultBadgeStyle} options={["shadow", "pill", "bar", "colored", "bordo", "vetro"]} onChange={(v) => { ed.setDefaultBadgeStyle(v); ed.setBadgeStyle(v) }} t={t} />
+      <SliderRow icon={<Ruler className="w-3.5 h-3.5" />} label={t("ui.fontSize")} value={ed.defaultBadgeFontScale} min={50} max={150} boundsMin={50} boundsMax={150} onChange={(v) => { ed.setDefaultBadgeFontScale(v); ed.setBadgeFontScale(v) }} onDoubleClick={() => { ed.setDefaultBadgeFontScale(100); ed.setBadgeFontScale(100) }} editingValue={editVal} editText={editTxt} setEditingValue={setEditVal} setEditText={setEditTxt} editingKey="bfs-default" suffix="%" />
       <hr className="border-border my-1" />
       <div className="flex items-center justify-between mt-1">
         <span className="text-xs text-muted">{t("ui.blurDefault")}</span>

@@ -305,12 +305,14 @@ export function usePosterium(): PosteriumCtx {
     badgeRating, setBadgeRating,
     badgeStyle, setBadgeStyle,
     rankingBadgeStyle, setRankingBadgeStyle,
+    badgeFontScale, setBadgeFontScale,
     customBadge, setCustomBadge,
     networkLogo, setNetworkLogo,
     ribbonSide,
     // Defaults
     defaultBadgeStyle, setDefaultBadgeStyle,
     defaultRankingBadgeStyle, setDefaultRankingBadgeStyle,
+    defaultBadgeFontScale,
     defaultGlobalBadges, setDefaultGlobalBadges,
     defaultRankingBadges, setDefaultRankingBadges,
     defaultBadgeGenre,
@@ -849,11 +851,12 @@ export function usePosterium(): PosteriumCtx {
   useEffect(() => {
     setUrlPattern(buildUrlPattern({
       globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle,
+      badgeFontScale,
       badgeGenre, badgeYear, badgeRating,
       customBadge, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, networkLogo, ribbonSide,
       tmdbKey, lang, profileId: profileStateless ? null : profileId, mdblistApiKey, configToken: profileStateless ? profileConfigToken : null,
     }))
-  }, [globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, networkLogo, ribbonSide, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, badgeStyle, rankingBadgeStyle, tmdbKey, lang, profileId, mdblistApiKey, profileStateless, profileConfigToken]) // eslint-disable-line react-hooks/exhaustive-deps -- customBadge intentionally excluded to avoid loop
+  }, [globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, networkLogo, ribbonSide, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, badgeStyle, rankingBadgeStyle, badgeFontScale, tmdbKey, lang, profileId, mdblistApiKey, profileStateless, profileConfigToken]) // eslint-disable-line react-hooks/exhaustive-deps -- customBadge intentionally excluded to avoid loop
 
   // Auto-sync profile configuration when profileId is active
   const lastSyncRef = useRef<string>("")
@@ -863,6 +866,7 @@ export function usePosterium(): PosteriumCtx {
     if (!profileId || profileStateless) return
     const config = {
       globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle,
+      badgeFontScale,
       badgeGenre: badgeGenre === false ? false : undefined,
       badgeYear: badgeYear === false ? false : undefined,
       badgeRating: badgeRating === false ? false : undefined,
@@ -902,7 +906,7 @@ export function usePosterium(): PosteriumCtx {
     }, 1000)
 
     return () => clearTimeout(timer)
-  }, [profileId, profilePassword, profileStateless, globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, badgeStyle, rankingBadgeStyle, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight, networkLogo, ribbonSide, autoRotateClean, defaultLogoFitEnabled, customBadge, customCatalogs, disabledCatalogIds, catalogOrder, catalogRenames, tmdbKey, mdblistApiKey])
+  }, [profileId, profilePassword, profileStateless, globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, badgeStyle, rankingBadgeStyle, badgeFontScale, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight, networkLogo, ribbonSide, autoRotateClean, defaultLogoFitEnabled, customBadge, customCatalogs, disabledCatalogIds, catalogOrder, catalogRenames, tmdbKey, mdblistApiKey])
 
   // --- Preview URL ---
   const buildPreviewUrlCb = useCallback(() => {
@@ -917,13 +921,13 @@ export function usePosterium(): PosteriumCtx {
         metaInfo, trendRank, mdblistAnimeList: trending.mdblistAnimeList,
         topEdgeColor, accentColor, lang, tmdbKey,
       },
-      { globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle, badgeGenre, badgeYear, badgeRating, customBadge, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, networkLogo, ribbonSide }
+      { globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle, badgeFontScale, badgeGenre, badgeYear, badgeRating, customBadge, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, networkLogo, ribbonSide }
     )
     setPreviewUrl(url)
   }, [navigation.selected, navigation.previewPoster, navigation.selectedLogo, selectedBackdrop,
     logoScale, logoOffsetX, logoOffsetY, backdropScale, backdropOffsetX, backdropOffsetY,
     metaInfo, trendRank, trending.mdblistAnimeList, topEdgeColor, accentColor, lang, tmdbKey,
-    globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle, badgeGenre, badgeYear, badgeRating, customBadge, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, networkLogo, ribbonSide])
+    globalBadges, rankingBadges, badgeStyle, rankingBadgeStyle, badgeFontScale, badgeGenre, badgeYear, badgeRating, customBadge, gradientHeight, blurIntensity, blurFade, blurDarkness, blurEnabled, networkLogo, ribbonSide])
 
   useEffect(() => {
     if (!navigation.selected) { setPreviewUrl(""); return }
@@ -1053,6 +1057,7 @@ export function usePosterium(): PosteriumCtx {
     if (existing) {
       setBadgeStyle(existing.badgeStyle ?? defaultBadgeStyle)
       setRankingBadgeStyle(existing.rankingBadgeStyle ?? defaultRankingBadgeStyle)
+      setBadgeFontScale(existing.badgeFontScale ?? defaultBadgeFontScale)
       setGlobalBadges(existing.showBadges ?? defaultGlobalBadges)
       setRankingBadges(existing.rankingBadges ?? defaultRankingBadges)
       setBadgeGenre(existing.badgeGenre ?? defaultBadgeGenre)
@@ -1078,6 +1083,7 @@ export function usePosterium(): PosteriumCtx {
     } else {
       setBadgeStyle(defaultBadgeStyle)
       setRankingBadgeStyle(defaultRankingBadgeStyle)
+      setBadgeFontScale(defaultBadgeFontScale)
       setGlobalBadges(defaultGlobalBadges)
       setRankingBadges(defaultRankingBadges)
       setBadgeGenre(defaultBadgeGenre)
@@ -1206,6 +1212,7 @@ export function usePosterium(): PosteriumCtx {
       badgeRating: badgeRating === false ? false : undefined,
       badgeStyle: badgeStyle as PosteriumUserConfig["badgeStyle"],
       rankingBadgeStyle: rankingBadgeStyle as PosteriumUserConfig["rankingBadgeStyle"],
+      badgeFontScale,
       blurEnabled,
       blurIntensity,
       blurFade,
@@ -1256,7 +1263,7 @@ export function usePosterium(): PosteriumCtx {
       console.error("[posterium] Failed to save profile:", e)
       import("sonner").then(({ toast }) => toast.error("Errore nel salvare il profilo"))
     }
-  }, [globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, badgeStyle, rankingBadgeStyle, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight, networkLogo, ribbonSide, autoRotateClean, defaultLogoFitEnabled, customBadge, customCatalogs, disabledCatalogIds, catalogOrder, catalogRenames, profileId, profilePassword, safeSetItem])
+  }, [globalBadges, rankingBadges, badgeGenre, badgeYear, badgeRating, badgeStyle, rankingBadgeStyle, badgeFontScale, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight, networkLogo, ribbonSide, autoRotateClean, defaultLogoFitEnabled, customBadge, customCatalogs, disabledCatalogIds, catalogOrder, catalogRenames, profileId, profilePassword, safeSetItem])
 
   const posterActivePath = navigation.previewPoster?.file_path
 
@@ -1268,8 +1275,9 @@ export function usePosterium(): PosteriumCtx {
     selectedBackdrop, setSelectedBackdrop: setSelectedBackdrop, backdropScale, backdropOffsetX, backdropOffsetY,
     setBackdropScale, setBackdropOffsetX, setBackdropOffsetY,
     globalBadges, rankingBadges, customBadge, badgeStyle, rankingBadgeStyle,
+    badgeFontScale,
     badgeGenre, badgeYear, badgeRating,
-    defaultBadgeStyle, defaultRankingBadgeStyle, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight,
+    defaultBadgeStyle, defaultRankingBadgeStyle, defaultBadgeFontScale, blurEnabled, blurIntensity, blurFade, blurDarkness, gradientHeight,
     setGradientHeight,
     rotationPosters, autoRotateClean, defaultAutoRotateClean, excludedPosters, accentColor, logoDisabled, setLogoDisabled,
     setLogoScale, setLogoOffsetX, setLogoOffsetY, networkLogo, ribbonSide, lang, profileId, profilePassword, profileStateless,

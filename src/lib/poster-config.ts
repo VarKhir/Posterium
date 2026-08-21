@@ -42,6 +42,7 @@ export interface PosterRenderConfigInput {
 export interface PosterRenderConfig {
   badgeStyle: BadgeStyle
   rankingBadgeStyle: RankingBadgeStyle
+  badgeFontScale: number
   blurEnabled: boolean
   blurHeight: number
   blurIntensity: number
@@ -87,6 +88,10 @@ export function resolvePosterRenderConfig(input: PosterRenderConfigInput): Poste
   }
 
   const blurEnabled = q.get("be") !== null ? q.get("be") !== "0" : (configOverride !== null ? configOverride.blurEnabled : true)
+  const rawBfs = q.get("bfs") ? Number(q.get("bfs")) : NaN
+  const badgeFontScale = Number.isFinite(rawBfs)
+    ? clamp(rawBfs, 50, 150)
+    : clamp(mapping?.badgeFontScale ?? configOverride?.badgeFontScale ?? sd.badgeFontScale ?? 100, 50, 150)
   // Clamp espliciti: impediscono a valori estremi (query o config) di arrivare a
   // sharp.blur con sigma enormi o gradienti fuori scala (potenziale DoS CPU).
   const rawGradHeight = q.get("gradHeight") ? Number(q.get("gradHeight")) : NaN
@@ -140,6 +145,7 @@ export function resolvePosterRenderConfig(input: PosterRenderConfigInput): Poste
   return {
     badgeStyle,
     rankingBadgeStyle,
+    badgeFontScale,
     blurEnabled,
     blurHeight,
     blurIntensity,

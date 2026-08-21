@@ -14,6 +14,7 @@ const log = createLogger("defaults")
 const defaultsSchema = z.object({
   badgeStyle: z.enum(BADGE_STYLES).optional(),
   rankingBadgeStyle: z.enum(RANKING_BADGE_STYLES).optional(),
+  badgeFontScale: z.number().min(50).max(150).optional(),
   blurEnabled: z.boolean().optional(),
   blurIntensity: z.number().optional(),
   blurFade: z.number().optional(),

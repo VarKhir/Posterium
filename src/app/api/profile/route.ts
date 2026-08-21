@@ -119,9 +119,11 @@ export async function POST(req: NextRequest) {
       { key: "blurFade", min: 0, max: 100 },
       { key: "blurDarkness", min: 0, max: 100 },
       { key: "gradientHeight", min: 5, max: 100 },
+      { key: "badgeFontScale", min: 50, max: 150 },
     ]
     for (const { key, min, max } of requiredNums) {
       const v = validConfig[key]
+      if (v === undefined) continue
       if (typeof v !== "number" || !Number.isFinite(v)) {
         return Response.json({ error: `Invalid config: '${key}' must be a finite number` }, { status: 400 })
       }
