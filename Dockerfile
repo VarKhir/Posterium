@@ -35,7 +35,7 @@ ENV SHARP_CONCURRENCY=2
 ENV SHARP_CACHE_MEMORY_MB=64
 ENV POSTERIUM_DATA_DIR=/data
 
-# Rimuove l'utente 'node' predefinito (UID 1000) per evitare il conflitto di ID
+# Rimuove l'utente preesistente 'node' (UID 1000) ed evita il blocco in fase di build
 RUN userdel -r node && addgroup --system nodejs && adduser --system --uid 1000 nextjs
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -45,7 +45,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder /app/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && mkdir -p /data && chown nextjs:nodejs /data
 
-# Esegui il server come utente non-root (principio del minimo privilegio).
+# Esegui il server come utente non-root
 USER nextjs
 
 EXPOSE 8080
