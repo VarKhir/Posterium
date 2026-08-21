@@ -1,8 +1,12 @@
 import { afterEach, describe, it, expect } from "vitest"
-import { buildPreviewUrl, buildUrlPattern } from "@/lib/poster-url"
+import { buildPreviewUrl as _buildPreviewUrl, buildUrlPattern as _buildUrlPattern } from "@/lib/poster-url"
 import { POSTER_URL_VERSION } from "@/lib/render-version"
 
-const baseBadgeParams: any = {
+// Bypass globale per evitare controlli di tipo eccessivamente rigidi nei test
+const buildPreviewUrl = (state: any, params: any) => _buildPreviewUrl(state, params)
+const buildUrlPattern = (params: any) => _buildUrlPattern(params)
+
+const baseBadgeParams = {
   globalBadges: true,
   rankingBadges: true,
   badgeStyle: "shadow" as const,
@@ -15,7 +19,7 @@ const baseBadgeParams: any = {
   blurEnabled: true,
 }
 
-const basePosterState: any = {
+const basePosterState = {
   selected: { id: 123, media_type: "movie" as const, title: "Test Movie", poster_path: "/poster.jpg" },
   previewPoster: { file_path: "/poster.jpg", iso_639_1: "it", vote_average: 7.5, width: 500, height: 750 },
   selectedLogo: null,
