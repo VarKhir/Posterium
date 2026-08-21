@@ -139,65 +139,65 @@ export default function EditView() {
             {/* CENTER: Preview */}
             <EditorPanel className="animate-fade-scale-in" title={<><span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 align-middle shadow-[0_0_6px_rgba(52,211,153,0.7)]" aria-hidden="true" />{t("ui.previewLive")}</>} footer={
               previewPoster && selected ? (
-<div className="flex flex-wrap items-center justify-center gap-2">
-                    {(() => {
-                      if (!selected) return null
-                      const key = `${selected.media_type}:${selected.id}`
-                      const hasMapping = mappingsMap.get(key)
-                      if (!hasMapping) return null
-                      return (
-                        <button type="button" aria-label={t("ui.remove")} onClick={() => { removeMapping(hasMapping).catch((e) => console.error("[posterium] Remove mapping failed:", e)); setSelected(null); setPreviewPoster(null); setSelectedLogo(null); setPreviewId(null) }} className="btn-danger min-h-[44px] px-4 rounded-xl text-xs">
-                          <Trash2 className="w-4 h-4" />
-                          {t("ui.remove")}
-                        </button>
-                      )
-                    })()}
-                    <button type="button" aria-label={t("ui.testUrl")} onClick={() => {
-                      if (!selected || !previewPoster) return
-                      const url = buildPreviewUrl({
-                        selected: selected,
-                        previewPoster: previewPoster,
-                        selectedLogo: selectedLogo,
-                        selectedBackdrop: ed.selectedBackdrop,
-                        logoScale: ed.logoScale,
-                        logoOffsetX: ed.logoOffsetX,
-                        logoOffsetY: ed.logoOffsetY,
-                        backdropScale: ed.backdropScale,
-                        backdropOffsetX: ed.backdropOffsetX,
-                        backdropOffsetY: ed.backdropOffsetY,
-                        metaInfo: metaInfo,
-                        trendRank: trendRank,
-                        mdblistAnimeList: mdblistAnimeList,
-                        topEdgeColor: topEdgeColor,
-                        accentColor: accentColor,
-                        lang: lang,
-                        tmdbKey: tmdbKey,
-                      }, {
-                        globalBadges: ed.globalBadges,
-                        rankingBadges: ed.rankingBadges,
-                        badgeStyle: ed.badgeStyle,
-                        rankingBadgeStyle: ed.rankingBadgeStyle,
-                        customBadge: ed.customBadge,
-                        gradientHeight: ed.gradientHeight,
-                        blurIntensity: ed.blurIntensity,
-                        blurFade: ed.blurFade,
-                        blurDarkness: ed.blurDarkness,
-                        blurEnabled: ed.blurEnabled,
-                        networkLogo: ed.networkLogo,
-                        ribbonSide: ed.ribbonSide,
-                      })
-                      if (!url) return
-                      setUrlCopied(false)
-                      setTestUrl(`${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`)
-                    }} className="btn-secondary min-h-[44px] px-4 rounded-xl text-xs">
-                      <ExternalLink className="w-4 h-4" />
-                      {t("ui.testUrl")}
-                    </button>
-                    <button type="button" aria-label={t("ui.savePoster")} onClick={handleSave} className="btn-primary min-h-[44px] px-5 rounded-xl">
-                      <Save className="w-4 h-4" />
-                      {t("ui.savePoster")}
-                    </button>
-                  </div>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  {(() => {
+                    if (!selected) return null
+                    const key = `${selected.media_type}:${selected.id}`
+                    const hasMapping = mappingsMap.get(key)
+                    if (!hasMapping) return null
+                    return (
+                      <button type="button" aria-label={t("ui.remove")} onClick={() => { removeMapping(hasMapping).catch((e) => console.error("[posterium] Remove mapping failed:", e)); setSelected(null); setPreviewPoster(null); setSelectedLogo(null); setPreviewId(null) }} className="btn-danger min-h-[44px] px-4 rounded-xl text-xs">
+                        <Trash2 className="w-4 h-4" />
+                        {t("ui.remove")}
+                      </button>
+                    )
+                  })()}
+                  <button type="button" aria-label={t("ui.testUrl")} onClick={() => {
+                    if (!selected || !previewPoster) return
+                    const url = buildPreviewUrl({
+                      selected: selected,
+                      previewPoster: previewPoster,
+                      selectedLogo: selectedLogo,
+                      selectedBackdrop: ed.selectedBackdrop,
+                      logoScale: ed.logoScale,
+                      logoOffsetX: ed.logoOffsetX,
+                      logoOffsetY: ed.logoOffsetY,
+                      backdropScale: ed.backdropScale,
+                      backdropOffsetX: ed.backdropOffsetX,
+                      backdropOffsetY: ed.backdropOffsetY,
+                      metaInfo: metaInfo,
+                      trendRank: trendRank,
+                      mdblistAnimeList: mdblistAnimeList,
+                      topEdgeColor: topEdgeColor,
+                      accentColor: accentColor,
+                      lang: lang,
+                      tmdbKey: tmdbKey,
+                    }, {
+                      globalBadges: ed.globalBadges,
+                      rankingBadges: ed.rankingBadges,
+                      badgeStyle: ed.badgeStyle,
+                      rankingBadgeStyle: ed.rankingBadgeStyle,
+                      customBadge: ed.customBadge,
+                      gradientHeight: ed.gradientHeight,
+                      blurIntensity: ed.blurIntensity,
+                      blurFade: ed.blurFade,
+                      blurDarkness: ed.blurDarkness,
+                      blurEnabled: ed.blurEnabled,
+                      networkLogo: ed.networkLogo,
+                      ribbonSide: ed.ribbonSide,
+                    } as any)
+                    if (!url) return
+                    setUrlCopied(false)
+                    setTestUrl(`${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`)
+                  }} className="btn-secondary min-h-[44px] px-4 rounded-xl text-xs">
+                    <ExternalLink className="w-4 h-4" />
+                    {t("ui.testUrl")}
+                  </button>
+                  <button type="button" aria-label={t("ui.savePoster")} onClick={handleSave} className="btn-primary min-h-[44px] px-5 rounded-xl">
+                    <Save className="w-4 h-4" />
+                    {t("ui.savePoster")}
+                  </button>
+                </div>
               ) : undefined}>
               <div className="flex flex-col items-center h-full min-h-0">
                 <div className="flex-1 min-h-0 w-full flex items-center justify-center">
