@@ -35,9 +35,8 @@ ENV SHARP_CONCURRENCY=2
 ENV SHARP_CACHE_MEMORY_MB=64
 ENV POSTERIUM_DATA_DIR=/data
 
-RUN addgroup --system nodejs
-# uid 1000: coincide con l'owner dello storage HF Spaces (persistenza distribuita).
-RUN adduser --system --uid 1000 nextjs
+# Rimuove l'utente 'node' predefinito (UID 1000) per evitare il conflitto di ID
+RUN userdel -r node && addgroup --system nodejs && adduser --system --uid 1000 nextjs
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
